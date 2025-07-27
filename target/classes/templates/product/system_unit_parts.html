@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:color="http://www.w3.org/1999/xhtml">
+<head>
+    <title><<ODENT SHOP>></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/demo.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap");
+        body {
+
+            background: linear-gradient(135deg, #8e2de2, #4a00e0);
+            background-size: 500% 500%;
+            animation: animateGradient 20s ease infinite;
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes animateGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            margin: 2rem auto;
+            color: #0000;
+            width: 95%;
+            max-width: 1600px;
+        }
+
+        .button {
+            background-color: #5c258d;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #6a0572;
+        }
+
+        @media screen and (min-width: 1024px) {
+            .container {
+                padding: 4rem 5rem;
+                font-size: 1.2rem;
+            }
+        }
+
+        .table {
+            width: 100%;
+            color: #f8f9fa;
+            font-size: 13px;
+            background-color: #2c003e;
+            table-layout: auto;
+        }
+        table tbody td {
+            color: white;
+        }
+
+        .table thead.thead-dark th {
+            background-color: #4a0072;
+            color: #ffffff;
+            border-bottom: 2px solid #6f42c1;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #3d0058;
+        }
+
+        .table-striped tbody tr:nth-of-type(even) {
+            background-color: #29003f;
+        }
+
+        .table-bordered td, .table-bordered th {
+            border: 1px solid #6f42c1;
+        }
+
+        .btn-primary.btn-sm {
+            background-color: #1b5e20;
+            border: none;
+        }
+        .btn-primary{
+            background-color: #8e2de2;
+        }
+
+        .btn-danger.btn-sm {
+            background-color: #c62828;
+            border: none;
+        }
+
+        .btn-sm:hover {
+            opacity: 0.85;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        .tr {
+            color: white;
+        }
+        h1{
+            background: linear-gradient(to right, #8e2de2, #4a00e0, #ffffff); /* Purple to Dark */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/" style="text-decoration: none;">
+        <h1 class="text-center my-4">System Unit Products</h1>
+    </a>
+
+    <div class="row mb-3">
+        <div class="col-md-3 mb-3">
+            <a class="btn btn-primary w-100" href="/system_unit/create">Add Parts</a>
+        </div>
+        <div class="col-md-9">
+            <div class="d-flex gap-2">
+                <input type="search" class="form-control rounded" id="brandSearch" placeholder="Search by brand" aria-label="Search" />
+                <button class="btn btn-primary" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table table-bordered table-striped" id="system_unit_parts_table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Brand</th>
+                <th>Part Name</th>
+                <th>Category</th>
+                <th>Storage Size</th>
+                <th>Stocks</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Created At</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="part : ${system_unit}">
+                <td th:text="${part.partId}"></td>
+                <td th:text="${part.brand}"></td>
+                <td th:text="${part.part_name}"></td>
+                <td th:text="${part.category}"></td>
+                <td th:text="${part.storage_size}"></td>
+                <td th:text="${part.stocks}"></td>
+                <td th:text="${part.price}"></td>
+                <td th:text="${part.description}"></td>
+                <td th:text="${#dates.format(part.createdAt, 'yyyy-MM-dd')}"></td>
+                <td>
+                    <img th:if="${part.image_file_name}"
+                         th:src="@{'/images/' + ${part.image_file_name}}"
+                         alt="System Unit Part Image"
+                         style="max-width: 100px; max-height: 100px;">
+                </td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-primary btn-sm" th:href="@{/system_unit/edit/{id}(id=${part.partId})}">Edit</a>
+
+                    <form th:action="@{/system_unit/delete/{id}(id=${part.partId})}"
+                          method="post" style="display:inline;">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete brother?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- JS Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const brandSearch = document.getElementById('brandSearch');
+        const table = document.getElementById('system_unit_parts_table');
+        const rows = table.getElementsByTagName('tr');
+        brandSearch.addEventListener('input', function () {
+            const filter = this.value.toLowerCase();
+            for (let i = 1; i < rows.length; i++) {
+                const brandCell = rows[i].getElementsByTagName('td')[1];
+                if (brandCell) {
+                    const brandText = brandCell.textContent || brandCell.innerText;
+                    rows[i].style.display = brandText.toLowerCase().includes(filter) ? '' : 'none';
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
